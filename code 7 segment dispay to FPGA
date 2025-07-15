@@ -1,0 +1,44 @@
+// Top-level module that connects the BCD input to a 7-segment display output
+module counter_top (bcd_input, seg_7, dot, seg7_sel); 
+input [3:0] bcd_input; // Input: 4-bit BCD value to be displayed
+output [6:0] seg_7;//  Output: 7-segment display segments (a to g) 
+output dot;// Dot/decimal point control (1 = off, 0 = on) 								
+output [0:0] seg7_sel;// select which part of 7 segment display
+
+bcd_seg7 M1 (bcd_input, seg_7);// // Instantiate the BCD to 7-segment display module
+assign seg7_sel = 1'b0; 
+assign dot = 1'b1; // turn off the Dot/decimal display     
+endmodule
+	
+module bcd_seg7 (bcd_input, seg_7);// module that converts BCD to 7 segment display
+input [3:0] bcd_input;// 4 bit BCd value
+output[6:0] seg_7; //7-bit output to drive the 7-segment display
+reg[6:0] seg_7;// regester to store 7 segment value
+
+
+always@ (bcd_input)// 
+
+begin 
+case(bcd_input) 
+
+// Inverted BCD value ex. 0000 to 1111
+// 7 segment format : gfedcba
+
+4'b1111: seg_7 = 7'b1000000;//0	
+4'b1110: seg_7 = 7'b1111001;//1		
+4'b1101: seg_7 = 7'b0100100;//2
+4'b1100: seg_7 = 7'b0110000;//3
+4'b1011: seg_7 = 7'b0011001;//4
+4'b1010: seg_7 = 7'b0010010;//5
+4'b1001: seg_7 = 7'b0000010;//6
+4'b1000: seg_7 = 7'b1111000;//7
+4'b0111: seg_7 = 7'b0000000;//8
+4'b0110: seg_7 = 7'b0010000;//9
+default: 
+		begin
+			seg_7 = 7'b1111111;// default/ off when input is invalid
+		end
+	
+	endcase
+ end
+endmodule
