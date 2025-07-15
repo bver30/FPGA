@@ -5,7 +5,7 @@ output [6:0] seg_7;//  Output: 7-segment display segments (a to g)
 output dot;// Dot/decimal point control (1 = off, 0 = on) 								
 output [0:0] seg7_sel;// select which part of 7 segment display
 
-bcd_seg7 M1 (bcd_input, seg_7);// // Instantiate the BCD to 7-segment display module
+bcd_seg7 M1 (bcd_input, seg_7); // Instantiate the BCD to 7-segment display module
 assign seg7_sel = 1'b0; 
 assign dot = 1'b1; // turn off the Dot/decimal display     
 endmodule
